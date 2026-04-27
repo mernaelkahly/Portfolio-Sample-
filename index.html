@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimplePractice Onboarding · Module 1</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: #F0F4F8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .module-wrap {
+      width: 100%;
+      max-width: 680px;
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .topbar {
+      background: #0A3D62;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 10px; }
+    .logo-pill {
+      background: #1B6CA8;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #B5D4F4;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .topbar-title { font-size: 13px; color: #85B7EB; }
+    .topbar-time { font-size: 11px; color: #85B7EB; }
+    .progress-bar-wrap {
+      background: #0A3D62;
+      padding: 8px 24px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #185FA5;
+    }
+    .progress-label { font-size: 11px; color: #85B7EB; white-space: nowrap; }
+    .progress-track { flex: 1; height: 4px; background: #185FA5; border-radius: 2px; }
+    .progress-fill { height: 100%; border-radius: 2px; background: #5DCAA5; transition: width 0.4s ease; }
+    .slide-area { min-height: 360px; padding: 32px 32px 24px; }
+    .slide { display: none; animation: fadeIn 0.3s ease; }
+    .slide.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #185FA5;
+      background: #E6F1FB;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .slide h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1A202C;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .slide p {
+      font-size: 14px;
+      color: #4A5568;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .info-card {
+      background: #F7FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .info-card .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+    .icon-blue { background: #EBF4FF; }
+    .icon-teal { background: #E1F5EE; }
+    .icon-amber { background: #FAEEDA; }
+    .icon-coral { background: #FAECE7; }
+    .info-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2D3748;
+      margin-bottom: 4px;
+    }
+    .info-card p {
+      font-size: 12px;
+      color: #718096;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .step-list { list-style: none; }
+    .step-list li {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 26px;
+      height: 26px;
+      background: #0A3D62;
+      color: #B5D4F4;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-text {
+      font-size: 14px;
+      color: #4A5568;
+      line-height: 1.65;
+    }
+    .step-text strong { font-weight: 600; color: #2D3748; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 500; }
+    .badge-blue { background: #E6F1FB; color: #185FA5; }
+    .badge-teal { background: #E1F5EE; color: #0F6E56; }
+    .badge-amber { background: #FAEEDA; color: #854F0B; }
+    .scenario-box {
+      background: #EBF8FF;
+      border-left: 3px solid #378ADD;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+    .scenario-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #378ADD;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .scenario-box p { font-size: 13px; color: #0C447C; margin: 0; line-height: 1.65; }
+    .quiz-option {
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 13px 18px;
+      margin-bottom: 9px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #2D3748;
+      background: #ffffff;
+      transition: background 0.15s, border-color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      width: 100%;
+      font-family: inherit;
+    }
+    .quiz-option:hover { background: #F7FAFC; border-color: #CBD5E0; }
+    .quiz-option.correct { background: #EAF3DE; border-color: #639922; color: #27500A; }
+    .quiz-option.incorrect { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+    .radio-circle {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 1.5px solid #CBD5E0;
+      flex-shrink: 0;
+    }
+    .quiz-option.correct .radio-circle { background: #639922; border-color: #639922; }
+    .quiz-option.incorrect .radio-circle { background: #A32D2D; border-color: #A32D2D; }
+    .quiz-feedback {
+      font-size: 13px;
+      padding: 11px 15px;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: none;
+      line-height: 1.6;
+    }
+    .feedback-correct { background: #EAF3DE; color: #27500A; }
+    .feedback-incorrect { background: #FCEBEB; color: #501313; }
+    .complete-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #E1F5EE;
+      border: 2px solid #1D9E75;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .complete-slide { text-align: center; padding-top: 8px; }
+    .complete-slide h2 { margin-bottom: 6px; }
+    .complete-slide p { max-width: 380px; margin: 0 auto 18px; }
+    .complete-slide .badge-row { justify-content: center; }
+    .next-module {
+      font-size: 13px;
+      color: #718096;
+      margin-top: 18px;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-top: 1px solid #E2E8F0;
+      background: #F7FAFC;
+    }
+    .nav-btn {
+      border: 1px solid #CBD5E0;
+      background: #ffffff;
+      color: #2D3748;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: #EDF2F7; }
+    .nav-btn.primary {
+      background: #0A3D62;
+      color: #B5D4F4;
+      border-color: #0A3D62;
+    }
+    .nav-btn.primary:hover { background: #185FA5; }
+    .nav-btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+    .slide-counter { font-size: 12px; color: #718096; }
+  </style>
+</head>
+<body>
+
+<div class="module-wrap">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="logo-pill">SimplePractice</div>
+      <span class="topbar-title">New Staff Onboarding · Module 1</span>
+    </div>
+    <span class="topbar-time">Est. 8 min</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <span class="progress-label" id="prog-label">0% complete</span>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="slide-area">
+
+    <!-- Slide 1: Welcome -->
+    <div class="slide active" id="slide-0">
+      <span class="slide-tag">Welcome</span>
+      <h2>Getting started with SimplePractice</h2>
+      <p>This module introduces the core workflows every staff member needs to navigate patient records, scheduling, and billing confidently on day one.</p>
+      <div class="card-grid">
+        <div class="info-card">
+          <div class="icon icon-blue">📋</div>
+          <h4>Patient records</h4>
+          <p>Create, update, and access clinical documentation</p>
+        </div>
+        <div class="info-card">
+          <div class="icon icon-teal">📅</div>
+          <h4>Scheduling</h4>
+          <p>Manage appointments and calendar sync</p>
+        </div>
+        <div class="info-card">
+          <div class="icon icon-amber">💳</div>
+          <h4>Billing</h4>
+          <p>Insurance claims, invoices, and payment tracking</p>
+        </div>
+        <div class="info-card">
+          <div class="icon icon-coral">🔒</div>
+          <h4>HIPAA compliance</h4>
+          <p>Data privacy rules built into every workflow</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Core Workflow -->
+    <div class="slide" id="slide-1">
+      <span class="slide-tag">Core workflow</span>
+      <h2>Adding a new patient</h2>
+      <p>Follow these steps every time a new patient is referred or schedules their first appointment.</p>
+      <ol class="step-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Navigate to Clients</strong> in the left sidebar and select "Add new client"</div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Complete the intake form</strong> — legal name, date of birth, insurance ID, and emergency contact are required fields</div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Send the client portal invite</strong> so the patient can complete consent forms digitally before their first visit</div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>Confirm insurance eligibility</strong> using the built-in verification tool — this takes under 60 seconds</div>
+        </li>
+      </ol>
+      <div class="badge-row">
+        <span class="badge badge-blue">Client portal</span>
+        <span class="badge badge-teal">Intake forms</span>
+        <span class="badge badge-amber">Insurance verification</span>
+      </div>
+    </div>
+
+    <!-- Slide 3: Scenario / Quiz -->
+    <div class="slide" id="slide-2">
+      <span class="slide-tag">Scenario</span>
+      <h2>Apply what you've learned</h2>
+      <div class="scenario-box">
+        <div class="scenario-label">Situation</div>
+        <p>A new patient calls to schedule their first session. They have Aetna insurance and want to complete paperwork before arriving. What should you do first?</p>
+      </div>
+      <div id="quiz-options">
+        <button class="quiz-option" onclick="checkAnswer(this, false)">
+          <div class="radio-circle"></div>
+          Schedule the appointment and collect paperwork in person
+        </button>
+        <button class="quiz-option" onclick="checkAnswer(this, true)">
+          <div class="radio-circle"></div>
+          Add them as a new client, then send a client portal invite
+        </button>
+        <button class="quiz-option" onclick="checkAnswer(this, false)">
+          <div class="radio-circle"></div>
+          Verify their insurance before creating any record
+        </button>
+      </div>
+      <div class="quiz-feedback feedback-correct" id="fb-correct">
+        ✓ Correct! Creating the client record first lets you send the portal invite and then run insurance verification — all before the appointment.
+      </div>
+      <div class="quiz-feedback feedback-incorrect" id="fb-incorrect">
+        Not quite. The best first step is creating the client record so you can send digital intake forms and capture consent before the visit.
+      </div>
+    </div>
+
+    <!-- Slide 4: Complete -->
+    <div class="slide" id="slide-3">
+      <div class="complete-slide">
+        <div class="complete-circle">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+            <polyline points="6,15 13,22 24,9" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>You've finished module 1</h2>
+        <p>You're ready to onboard your first patient in SimplePractice.</p>
+        <div class="badge-row">
+          <span class="badge badge-teal">Patient records ✓</span>
+          <span class="badge badge-blue">Scheduling ✓</span>
+          <span class="badge badge-amber">Billing intro ✓</span>
+        </div>
+        <p class="next-module">Next: Module 2 — Documentation &amp; Clinical Notes</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Back</button>
+    <span class="slide-counter" id="slide-counter">1 of 4</span>
+    <button class="nav-btn primary" id="btn-next" onclick="navigate(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+  var current = 0;
+  var total = 4;
+  var quizAnswered = false;
+
+  function navigate(dir) {
+    if (dir === 1 && current === 2 && !quizAnswered) return;
+    var slides = document.querySelectorAll('.slide');
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    slides[current].classList.add('active');
+    updateUI();
+  }
+
+  function updateUI() {
+    document.getElementById('btn-prev').disabled = current === 0;
+    var btnNext = document.getElementById('btn-next');
+    if (current === total - 1) {
+      btnNext.disabled = true;
+      btnNext.textContent = 'Complete ✓';
+    } else if (current === 2 && !quizAnswered) {
+      btnNext.disabled = true;
+      btnNext.textContent = 'Answer to continue';
+    } else {
+      btnNext.disabled = false;
+      btnNext.textContent = current === total - 2 ? 'Finish →' : 'Next →';
+    }
+    document.getElementById('slide-counter').textContent = (current + 1) + ' of ' + total;
+    var pct = Math.round((current / (total - 1)) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-label').textContent = pct + '% complete';
+  }
+
+  function checkAnswer(el, isCorrect) {
+    if (quizAnswered) return;
+    quizAnswered = true;
+    var options = document.querySelectorAll('.quiz-option');
+    options.forEach(function(o) { o.disabled = true; });
+    el.classList.add(isCorrect ? 'correct' : 'incorrect');
+    document.getElementById(isCorrect ? 'fb-correct' : 'fb-incorrect').style.display = 'block';
+    if (!isCorrect) {
+      options.forEach(function(o) {
+        if (o.getAttribute('onclick') && o.getAttribute('onclick').indexOf('true') !== -1) {
+          o.classList.add('correct');
+        }
+      });
+    }
+    updateUI();
+  }
+
+  updateUI();
+</script>
+
+</body>
+</html>
